@@ -9,10 +9,10 @@ import { Pencil, Trash } from "lucide-react";
 
 const initialState = {
 
-    title: "Chocolate dubai",
-    description: "test",
-    price: 79,
-    quantity: 20,
+    title: "ชื่อสินค้า",
+    description: "รายละเอียดสิ้นค้า",
+    price: 0,
+    quantity: 0,
     categoryId: '',
     images: []
 
@@ -97,7 +97,7 @@ const Formproduct = () => {
                     required
                     value={form.categoryId}
                 >
-                    <option value="" disabled>Please Select</option>
+                    <option value="" disabled>กรุณาเลือกประเภทสินค้า</option>
                     {categories.map((item, index) => (
                         <option key={index} value={item.id}>{item.name}</option>
                     ))}

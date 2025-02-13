@@ -60,14 +60,16 @@ const Uploadfile = ({ form, setForm }) => {
     }
     console.log(form)
 
-    const handleDelete = (public_id) => {
+      const handleDelete = (public_id) => {
         const images = form.images
         removeFiles(token, public_id)
             .then((res) => {
-                console.log(res);
-                const filterImages = images.filter((item, index) => {
+                const filterImages = images.filter((item) => {
+                    console.log(item)
                     return item.public_id !== public_id
                 })
+
+                console.log('filterImages', filterImages)
                 setForm({
                     ...form,
                     images: filterImages
@@ -75,13 +77,13 @@ const Uploadfile = ({ form, setForm }) => {
                 toast.error(res.data)
             })
             .catch((err) => {
-                console.log(err);
-            });
+                console.log(err)
+            })
     }
 
     return (
         <div>
-            <div className='flex mx-4 gap-4 my-4'>
+            {/* <div className='flex mx-4 gap-4 my-4'>
                 {
                     form.images.map((item, index) =>
                         <div className='relative' key={index}>
@@ -90,7 +92,16 @@ const Uploadfile = ({ form, setForm }) => {
                         </div>
                     )
                 }
+            </div> */}
+            <div className='flex mx-4 gap-4 my-4'>
+                {form.images && form.images.length > 0 && form.images.map((item, index) => (
+                    <div className='relative' key={index}>
+                        <img className='w-24 h-24 hover:scale-105' src={item.url} />
+                        <span onClick={() => handleDelete(item.public_id)} className='absolute top-0 right-0 bg-red-500 p-1 rounded-md'>X</span>
+                    </div>
+                ))}
             </div>
+
 
             {/* <div>
                 <input
@@ -100,22 +111,22 @@ const Uploadfile = ({ form, setForm }) => {
                     multiple
                 />
             </div> */}
-          <div className="flex flex-col">
-  <label
-    htmlFor="file-upload"
-    className="bg-blue-500 text-white p-3 rounded-md shadow-md hover:scale-105 hover:-translate-y-1 hover:duration-200 max-w-[100px] w-full text-center"
-  >
-    เพิ่มรูปภาพ
-  </label>
-  <input
-    id="file-upload"
-    onChange={handleOnChange}
-    type="file"
-    name="images"
-    multiple
-    className="hidden" // ซ่อน input
-  />
-</div>
+            <div className="flex flex-col">
+                <label
+                    htmlFor="file-upload"
+                    className="bg-blue-500 text-white p-3 rounded-md shadow-md hover:scale-105 hover:-translate-y-1 hover:duration-200 max-w-[100px] w-full text-center"
+                >
+                    เพิ่มรูปภาพ
+                </label>
+                <input
+                    id="file-upload"
+                    onChange={handleOnChange}
+                    type="file"
+                    name="images"
+                    multiple
+                    className="hidden" // ซ่อน input
+                />
+            </div>
 
         </div>
     )

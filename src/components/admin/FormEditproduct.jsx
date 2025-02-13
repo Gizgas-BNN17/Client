@@ -1,7 +1,7 @@
 import React from 'react'
 import useEcomStore from '../../store/ecomStore';
 import { useState, useEffect } from 'react'
-import { createProduct, readProduct, updateProduct, listProduct } from '../../api/product';
+import { readProduct, updateProduct } from '../../api/product';
 import Uploadfile from './Uploadfile';
 import { toast } from 'react-toastify';
 import { Link } from "react-router-dom";
@@ -21,6 +21,7 @@ const initialState = {
 const FormEditproduct = () => {
     const token = useEcomStore((state) => state.token)
     const { id } = useParams()
+    const navigate = useNavigate()
     const getCategory = useEcomStore((state) => (state.getCategory))
     const categories = useEcomStore((state) => state.categories)
     const [form, setForm] = useState(initialState)
@@ -30,33 +31,34 @@ const FormEditproduct = () => {
     }, [])
 
     const fatchProduct = async (token, id, form) => {
-        try { const res = await readProduct(token, id, form) } catch (err) {
-            console.log(err)
-            setForm(res.gata)
+        try {
+            // code
+            const res = await readProduct(token, id, form)
+           // console.log('res from backend', res)
+            setForm(res.data)
+        } catch (err) {
+            //console.log('Err fetch data', err)
         }
     }
+    console.log(form)
 
     const handleOnChange = (e) => {
-        console.log(e.target.name, e.target.value);
+        console.log(e.target.name, e.target.value)
         setForm({
             ...form,
-            [e.target.name]: e.target.value,
-        });
+            [e.target.name]: e.target.value
+        })
     }
-
     const handleSubmit = async (e) => {
         e.preventDefault()
-        //console.log(form)
         try {
-            const res = await updateProduct(token, form);
-            //  console.log(res);
-            // setForm(initialState);
-            // getProduct();
-            toast.success(`เพิ่มข้อมูล ${res.data.title} สำเร็จ`);
+            const res = await updateProduct(token, id, form)
+            console.log(res)
+            toast.success(`เเก้ไขข้อมูล ${res.data.title} สำเร็จ`)
+            navigate('/admin/product')
         } catch (err) {
-            console.log(err);
+            console.log(err)
         }
-
     }
     return (
         <div className="container mx-auto p-6 bg-white shadow-lg rounded-lg">
@@ -110,9 +112,10 @@ const FormEditproduct = () => {
                 <Uploadfile form={form} setForm={setForm} />
 
                 <button
+
                     className="bg-blue-500 text-white p-3 rounded-md shadow-md hover:scale-105 hover:-translate-y-1 hover:duration-200"
                 >
-                    เพิ่มสินค้า
+                    เเก้ไขสินค้า
                 </button>
 
                 <hr className="my-6" />
