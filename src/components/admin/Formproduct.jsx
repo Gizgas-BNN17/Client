@@ -1,7 +1,7 @@
 import React from 'react'
 import useEcomStore from '../../store/ecomStore';
 import { useState, useEffect } from 'react'
-import { createProduct } from '../../api/product';
+import { createProduct, removeProduct } from '../../api/product';
 import Uploadfile from './Uploadfile';
 import { toast } from 'react-toastify';
 import { Link } from "react-router-dom";
@@ -54,6 +54,19 @@ const Formproduct = () => {
         }
 
     }
+    const handleDelete = async (id) => {
+        if (window.confirm("ยืนยันการลบหรือไม่ ?")) {
+          try {
+            // code
+            const res = await removeProduct(token, id);
+            console.log(res);
+            toast.success("Deleted สินค้าเรียบร้อยแล้ว");
+            getProduct();
+          } catch (err) {
+            console.log(err);
+          }
+        }
+      }
     return (
         <div className="container mx-auto p-6 bg-white shadow-lg rounded-lg">
           
