@@ -2,7 +2,7 @@ import axios from "axios";
 import { create } from "zustand";
 import { persist, createJSONStorage } from 'zustand/middleware'
 import { listCategory } from "../api/category";
-import { listProduct } from "../api/product";
+import { listProduct, searchFilters } from "../api/product";
 
 const usePersist = {
     name: 'ecom-store',
@@ -14,8 +14,8 @@ const useEcomStore = create(
         (set) => ({
             user: null,
             token: null,
-            categories : [],
-            products : [],
+            categories: [],
+            products: [],
             actionLogin: async (form) => {
                 console.log('action login')
                 const res = await axios.post('http://localhost:5000/api/login', form)
@@ -31,7 +31,7 @@ const useEcomStore = create(
                 try {
                     const res = await listCategory()
                     // console.log(res)
-                    set({categories : res.data})
+                    set({ categories: res.data })
 
                 } catch (err) {
                     console.log(err)
@@ -42,12 +42,26 @@ const useEcomStore = create(
                 try {
                     const res = await listProduct(count)
                     // console.log(res)
-                    set({products : res.data})
+                    set({ products: res.data })
 
                 } catch (err) {
                     console.log(err)
                 }
-            }
+            }, actionRemoveProduct: (productId) => {
+                set((state) => ({
+                    carts: state.carts.filter((item) => item.id !== productId),
+                }));
+            },
+            actionSearchFilters: async (arg) => {
+                console.log('arg : ',arg)
+                try {
+                    const res = await searchFilters(arg);
+                    set({ products: res.data });
+                } catch (err) {
+                    console.log(err);
+                }
+            },
+
         }
 
         ),

@@ -53,7 +53,7 @@ const Formproduct = () => {
         e.preventDefault()
         //console.log(form)
         try {
-            const res = await createProduct(form);
+            const res = await createProduct(token,form);
             //  console.log(res);
             setForm(initialState);
             getProduct();
