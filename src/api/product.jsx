@@ -20,6 +20,24 @@ export const listProduct = async (token, count = 20) => {
         }
     )
 }
+export const readProduct = async (token, id) => {
+    return await axios.get('http://localhost:5000/api/product/' + id
+        , {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+    )
+}
+export const updateProduct = async (token, id, form) => {
+    return await axios.put('http://localhost:5000/api/product/' + id
+        , form, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+    )
+}
 
 export const removeProduct = async (token, id) => {
     return await axios.delete('http://localhost:5000/api/product/' + id

@@ -19,6 +19,7 @@ import Manage from '../page/admin/Manage'
 import HomeUser from '../page/user/HomeUser'
 import ProtectUser from '../routes/ProtectUser'
 import ProtectAdmin from '../routes/ProtectAdmin'
+import EditProduct from '../page/admin/EditProduct'
 // creact const
 const router = createBrowserRouter([
     {
@@ -40,7 +41,7 @@ const router = createBrowserRouter([
             { index: true, element: <Home /> },
             { path: 'category', element: <Category /> },
             { path: 'product', element: <Product /> },
-            { path: 'manage', element: <Manage /> },
+            { path: 'product/:id', element: <EditProduct /> },
         ]
     },
     {

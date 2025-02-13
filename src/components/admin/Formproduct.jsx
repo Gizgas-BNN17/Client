@@ -152,7 +152,7 @@ const Formproduct = () => {
                                 <td className="border p-3">{item.updatedAt}</td>
                                 <td className="border p-3 flex justify-center items-center gap-2">
                                     <Link
-                                        to={"/admin/product/" + item.id}
+                                        to={'/admin/product/' + item.id}
                                         className="bg-yellow-500 text-white p-9 w-full rounded-md shadow-md hover:scale-105 hover:-translate-y-1 hover:duration-100 text-center"
                                     >
                                         <Pencil  className="w-6 h-6" />
