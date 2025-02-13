@@ -23,7 +23,16 @@ const Formproduct = () => {
     const categories = useEcomStore((state) => state.categories)
     const getProduct = useEcomStore((state) => (state.getProduct))
     const products = useEcomStore((state) => state.products)
-    const [form, setForm] = useState(initialState)
+    const [form, setForm] = useState(
+        {
+            title: "ชื่อสินค้า",
+            description: "รายละเอียดสิ้นค้า",
+            price: 0,
+            quantity: 0,
+            categoryId: '',
+            images: []
+        }
+    )
     console.log(products)
     useEffect(() => {
         getCategory(token)
@@ -56,23 +65,23 @@ const Formproduct = () => {
     }
     const handleDelete = async (id) => {
         if (window.confirm("ยืนยันการลบหรือไม่ ?")) {
-          try {
-            // code
-            const res = await removeProduct(token, id);
-            console.log(res);
-            toast.success("Deleted สินค้าเรียบร้อยแล้ว");
-            getProduct();
-          } catch (err) {
-            console.log(err);
-          }
+            try {
+                // code
+                const res = await removeProduct(token, id);
+                console.log(res);
+                toast.success("Deleted สินค้าเรียบร้อยแล้ว");
+                getProduct();
+            } catch (err) {
+                console.log(err);
+            }
         }
-      }
+    }
     return (
         <div className="container mx-auto p-6 bg-white shadow-lg rounded-lg">
-          
+
 
             <form onSubmit={handleSubmit} className="space-y-4">
-            <h1 className="text-2xl font-bold mb-4 text-gray-700">เพิ่มข้อมูลสินค้า</h1>
+                <h1 className="text-2xl font-bold mb-4 text-gray-700">เพิ่มข้อมูลสินค้า</h1>
                 <input
                     className="w-full border rounded-md p-2"
                     value={form.title}
@@ -168,13 +177,13 @@ const Formproduct = () => {
                                         to={'/admin/product/' + item.id}
                                         className="bg-yellow-500 text-white p-9 w-full rounded-md shadow-md hover:scale-105 hover:-translate-y-1 hover:duration-100 text-center"
                                     >
-                                        <Pencil  className="w-6 h-6" />
+                                        <Pencil className="w-6 h-6" />
                                     </Link>
                                     <button
                                         className="bg-red-500 text-white p-9 w-full rounded-md shadow-md hover:scale-105 hover:-translate-y-1 hover:duration-100 text-center"
                                         onClick={() => handleDelete(item.id)}
                                     >
-                                        <Trash  className="w-6 h-6" />
+                                        <Trash className="w-6 h-6" />
                                     </button>
                                 </td>
 

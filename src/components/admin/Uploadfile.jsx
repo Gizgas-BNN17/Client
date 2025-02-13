@@ -4,15 +4,14 @@ import { removeFiles, uploadFiles } from '../../api/product'
 // import { removeFiles, uploadFiles } from '../../api/product'
 import useEcomStore from '../../store/ecomStore'
 import { toast } from 'react-toastify'
-
-// import { Loader } from 'lucide-react';
+import { LoaderCircle } from 'lucide-react';
 
 const Uploadfile = ({ form, setForm }) => {
     const token = useEcomStore((state) => state.token)
     const [isLoading, setIsLoading] = useState(false)
     const handleOnChange = (e) => {
         // code
-        //setIsLoading(true)
+        setIsLoading(true)
         const files = e.target.files
         if (files) {
             setIsLoading(true)
@@ -45,10 +44,12 @@ const Uploadfile = ({ form, setForm }) => {
                                     Images: allFiles
 
                                 })
-                                // toast.success('Upload image Sucess !!!')
+                                setIsLoading(false)
+                                toast.success('Upload image Sucess !!!')
                             })
                             .catch((err) => {
                                 console.log(err)
+                                setIsLoading(false)
                             })
                     },
                     "base64"
@@ -60,8 +61,9 @@ const Uploadfile = ({ form, setForm }) => {
     }
     console.log(form)
 
-      const handleDelete = (public_id) => {
+    const handleDelete = (public_id) => {
         const images = form.images
+        setIsLoading(true)
         removeFiles(token, public_id)
             .then((res) => {
                 const filterImages = images.filter((item) => {
@@ -74,6 +76,7 @@ const Uploadfile = ({ form, setForm }) => {
                     ...form,
                     images: filterImages
                 })
+                setIsLoading(false)
                 toast.error(res.data)
             })
             .catch((err) => {
@@ -94,6 +97,9 @@ const Uploadfile = ({ form, setForm }) => {
                 }
             </div> */}
             <div className='flex mx-4 gap-4 my-4'>
+                {
+                    isLoading && <LoaderCircle className='w-5 h-5 animate-spin' />
+                }
                 {form.images && form.images.length > 0 && form.images.map((item, index) => (
                     <div className='relative' key={index}>
                         <img className='w-24 h-24 hover:scale-105' src={item.url} />
