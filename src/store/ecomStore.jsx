@@ -26,10 +26,10 @@ const useEcomStore = create(
                 })
                 return res
             },
-            getCategory: async (token) => {
+            getCategory: async () => {
 
                 try {
-                    const res = await listCategory(token)
+                    const res = await listCategory()
                     // console.log(res)
                     set({categories : res.data})
 
@@ -37,10 +37,10 @@ const useEcomStore = create(
                     console.log(err)
                 }
             },
-            getProduct: async (token,count) => {
+            getProduct: async (count) => {
 
                 try {
-                    const res = await listProduct(token,count)
+                    const res = await listProduct(count)
                     // console.log(res)
                     set({products : res.data})
 

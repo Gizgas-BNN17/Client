@@ -1,8 +1,14 @@
 //rafce
-import React from 'react'
+import React, { useEffect } from 'react'
 import ProductCard from '../components/card/ProductCard'
+import useEcomStore from '../store/ecomStore'
 
 const Shop = () => {
+  const getProduct = useEcomStore((state) => state.getProduct)
+  const products = useEcomStore((state) => state.products)
+  useEffect(() => {
+    getProduct()
+  }, [])
   return (
 
     <div className='flex'>
@@ -17,9 +23,15 @@ const Shop = () => {
         <p className='text-2xl font-bold mb-4'>สินค้าทั้งหมด</p>
         <div className='flex flex-wrap gap-4'>
           {/* Product Card */}
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
+          {/* loop */}
+          {
+            products.map((item, index) =>
+              
+              <ProductCard key={index} item={item}/>
+            )
+          }
+     
+
           {/* Product Card */}
         </div>
       </div>

@@ -35,8 +35,8 @@ const Formproduct = () => {
     )
     console.log(products)
     useEffect(() => {
-        getCategory(token)
-        getProduct(token, 100)
+        getCategory()
+        getProduct(100)
     }, [])
 
     // console.log(categories)
@@ -53,10 +53,10 @@ const Formproduct = () => {
         e.preventDefault()
         //console.log(form)
         try {
-            const res = await createProduct(token, form);
+            const res = await createProduct(form);
             //  console.log(res);
-            // setForm(initialState);
-            // getProduct();
+            setForm(initialState);
+            getProduct();
             toast.success(`เพิ่มข้อมูล ${res.data.title} สำเร็จ`);
         } catch (err) {
             console.log(err);

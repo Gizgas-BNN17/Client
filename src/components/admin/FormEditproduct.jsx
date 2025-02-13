@@ -26,7 +26,7 @@ const FormEditproduct = () => {
     const categories = useEcomStore((state) => state.categories)
     const [form, setForm] = useState(initialState)
     useEffect(() => {
-        getCategory(token)
+        getCategory()
         fatchProduct(token, id, form)
     }, [])
 
