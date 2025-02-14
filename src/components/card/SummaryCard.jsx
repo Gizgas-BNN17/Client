@@ -1,6 +1,59 @@
-import React from 'react'
-
+import React, { useState, useEffect } from "react";
+import { listUserCart , saveAddress} from "../../api/user";
+import useEcomStore from "../../store/ecomStore";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 const SummaryCard = () => {
+    const token = useEcomStore((state) => state.token);
+    const [products, setProducts] = useState([]);
+    const [cartTotal, setCartTotal] = useState(0);
+
+    const [address, setAddress] = useState("");
+    const [addressSaved, setAddressSaved] = useState(false);
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        hdlGetUserCart(token);
+    }, []);
+
+    const hdlGetUserCart = (token) => {
+        listUserCart(token)
+            .then((res) => {
+                console.log(res)
+                setProducts(res.data.product);
+                setCartTotal(res.data.cartTotal);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+
+    
+  const hdlSaveAddress = () => {
+    if (!address) {
+      return toast.warning("Please fill address");
+    }
+    saveAddress(token, address)
+      .then((res) => {
+        console.log(res);
+        toast.success(res.data.message);
+        setAddressSaved(true);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const hdlGoToPayment = () => {
+    if (!addressSaved) {
+      return toast.warning("กรุณากรอกทีอยู่");
+    }
+    toast.success("สั่งซื้อเรียบร้อย !!! ");
+   // navigate("/shop");
+   navigate("/payment");
+  };
+
+    console.log('Summary / products : ', products)
     return (
         <div className="mx-auto">
             <div className="flex flex-wrap gap-4">
@@ -13,12 +66,12 @@ const SummaryCard = () => {
                         <h1 className="font-bold text-lg">ที่อยู่ในการจัดส่ง</h1>
                         <textarea
                             required
-                            //onChange={(e) => setAddress(e.target.value)}
+                            onChange={(e) => setAddress(e.target.value)}
                             placeholder="กรุณากรอกที่อยู่"
-                            className="w-full px-2 rounded-md"
+                            className="w-full px-2 rounded-md bg-white"
                         />
                         <button
-                            //onClick={hdlSaveAddress}
+                            onClick={hdlSaveAddress}
                             className="bg-blue-500 text-white
             px-4 py-2 rounded-md shadow-md hover:bg-blue-700
             hover:scale-105 hover:translate-y-1 hover:duration-200"
@@ -36,24 +89,24 @@ const SummaryCard = () => {
                         <h1 className="text-lg font-bold">คำสั่งซื้อของคุณ</h1>
                         {/* Item List */}
 
-                        <div>
-                            <div className="flex justify-between items-end">
-                                <div>
-                                    <p className="font-bold">title</p>
-                                    <p className="text-sm">
-                                        {/* จำนวน : {item.count} x {numberFormat(item.product.price) } */}
-                                        count
-                                    </p>
-                                </div>
+                        {products?.map((item, index) => (
+                            <div key={index}>
+                                <div className="flex justify-between items-end">
+                                    <div>
+                                        <p className="font-bold">{item.product.title}</p>
+                                        <p className="text-sm">
+                                            จำนวน : {item.count} x {item.product.price}
+                                        </p>
+                                    </div>
 
-                                <div>
-                                    <p className="text-red-500 font-bold">
-                                        {/* { numberFormat(item.count * item.product.price)     } */}
-                                        count
-                                    </p>
+                                    <div>
+                                        <p className="text-red-500 font-bold">
+                                            {item.count * item.product.price}
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        ))}
                         <hr />
                         <div>
                             <div className="flex justify-between">
@@ -76,8 +129,8 @@ const SummaryCard = () => {
                         <hr />
                         <div>
                             <button
-                                //   onClick={hdlGoToPayment}
-                                // disabled={!addressSaved}
+                                  onClick={hdlGoToPayment}
+                                disabled={!addressSaved}
                                 className="bg-green-400 w-full p-2 rounded-md
               shadow-md text-white hover:bg-green-600"
                             >

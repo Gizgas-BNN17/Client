@@ -20,12 +20,13 @@ import HomeUser from '../page/user/HomeUser'
 import ProtectUser from '../routes/ProtectUser'
 import ProtectAdmin from '../routes/ProtectAdmin'
 import EditProduct from '../page/admin/EditProduct'
+import Payment from '../page/user/Payment'
 // creact const
 const router = createBrowserRouter([
     {
         path: '/', element: <Layout />,
         children: [
-            { index: true, element: <Home /> },
+            { index: 'shop', element: <Shop /> },
             { path: 'shop', element: <Shop /> },
             { path: 'card', element: <Card /> },
             { path: 'history', element: <History /> },
@@ -49,6 +50,8 @@ const router = createBrowserRouter([
         element: <ProtectUser element={<LayoutUser />} />,
         children: [
             { index: true, element: <HomeUser /> },
+            { path: 'payment', element: <Payment /> },
+
         ]
     }
 
