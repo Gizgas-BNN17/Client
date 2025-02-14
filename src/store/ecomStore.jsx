@@ -1,6 +1,6 @@
 import axios from "axios";
 import { create } from "zustand";
-import { persist ,createJSONStorage} from "zustand/middleware";
+import { persist, createJSONStorage } from "zustand/middleware";
 import { listCategory } from "../api/category";
 import { listProduct, searchFilters } from "../api/product";
 import _ from "lodash";
@@ -17,14 +17,7 @@ const useEcomStore = create(
             categories: [],
             products: [],
             carts: [],
-            actionAddtoCart: (product) => {
-                const carts = get().carts;
-                const updateCart = [...carts, { ...product, count: 1 }];
-                // Step Uniqe
-                const uniqe = _.unionWith(updateCart, _.isEqual);
-                set({ carts: uniqe });
-                console.log("carts : ",carts)
-              },
+
             actionLogin: async (form) => {
                 console.log('action login')
                 const res = await axios.post('http://localhost:5000/api/login', form)
@@ -65,25 +58,37 @@ const useEcomStore = create(
                 } catch (err) {
                     console.log(err);
                 }
-            }, actionUpdateQuantity: (productId, newQuantity) => {
+            },
+            actionAddtoCart: (product) => {
+                const carts = get().carts;
+                const updateCart = [...carts, { ...product, count: 1 }];
+                // Step Uniqe
+                const uniqe = _.unionWith(updateCart, _.isEqual);
+                set({ carts: uniqe });
+                console.log('in actionAddtoCart')
+                console.log('updateCart : ',updateCart)
+                console.log('uniqe : ',uniqe)
+            },
+             actionUpdateQuantity: (productId, newQuantity) => {
+                console.log('in actionUpdateQuantity',productId,newQuantity)
                 set((state) => ({
-                  carts: state.carts.map((item) =>
-                    item.id === productId
-                      ? { ...item, count: Math.max(1, newQuantity) }
-                      : item
-                  ),
+                    carts: state.carts.map((item) =>
+                        item.id === productId
+                            ? { ...item, count: Math.max(1, newQuantity) }
+                            : item
+                    ),
                 }));
-              },
-              actionRemoveProduct: (productId) => {
+            },
+            actionRemoveProduct: (productId) => {
                 set((state) => ({
-                  carts: state.carts.filter((item) => item.id !== productId),
+                    carts: state.carts.filter((item) => item.id !== productId),
                 }));
-              },
-              getTotalPrice: () => {
+            },
+            getTotalPrice: () => {
                 return get().carts.reduce((total, item) => {
-                  return total + item.price * item.count;
+                    return total + item.price * item.count;
                 }, 0);
-              },
+            },
 
         }
 

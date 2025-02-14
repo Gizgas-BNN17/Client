@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 const CartCard = () => {
   const carts = useEcomStore((state) => state.carts)
   const getTotalPrice = useEcomStore((state) => state.getTotalPrice);
-
+  console.log('CartCard carts : ', carts);
   const actionUpdateQuantity = useEcomStore(
     (state) => state.actionUpdateQuantity
   )
@@ -81,7 +81,7 @@ const CartCard = () => {
                 </button>
               </div>
               {/* Right */}
-              <div className="font-bold text-blue-500">{item.price + ' ฿'}</div>
+              <div className="font-bold text-blue-500">฿ {item.price * item.count}</div>
             </div>
           </div>
         )

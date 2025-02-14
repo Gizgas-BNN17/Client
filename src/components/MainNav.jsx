@@ -2,7 +2,9 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import useEcomStore from '../store/ecomStore'
 const MainNav = () => {
-  const cart = useEcomStore((state) => state.carts)
+  const carts = useEcomStore((state) => state.carts)
+  console.log('Main New carts : ',carts)
+  console.log('Main New carts จำนวน : ',carts.length)
   return (
     <nav className='bg-pink-300'>
       <div className='mx-auto px-2'>
@@ -11,14 +13,14 @@ const MainNav = () => {
             <Link to={'/'} className='text-2xl font-bold'>DESSERT DAIFUKUS</Link>
             <Link to={'/'}>Home</Link>
             <Link to={'/shop'}>Product</Link>
-            <Link to={'/card'}>   
+            <Link to={'/card'} className='relative py-4'>   
             Cart
-              {cart.length > 0 && (
+              {carts.length > 0 && (
                 <span
                   className="absolute top-0
                bg-red-500 rounded-full px-2"
                 >
-                  {cart.length}
+                  {carts.length}
                 </span>
               )}
             </Link>

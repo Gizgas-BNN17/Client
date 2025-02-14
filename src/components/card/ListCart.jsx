@@ -1,30 +1,48 @@
 import React from 'react'
-import { Trash2, Minus, Plus, ListCheck } from "lucide-react";
+import {ListCheck } from "lucide-react";
 import useEcomStore from '../../store/ecomStore';
 import { Link } from "react-router-dom";
+import { createUserCart } from "../../api/user";
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const ListCart = () => {
-  const carts = useEcomStore((state) => state.carts)
+  const card = useEcomStore((state) => state.carts)
+  const user = useEcomStore((s) => s.user);
+  const token = useEcomStore((s) => s.token);
   const getTotalPrice = useEcomStore((state) => state.getTotalPrice);
+  const navigate = useNavigate()
 
-  const actionUpdateQuantity = useEcomStore(
-    (state) => state.actionUpdateQuantity
-  )
-  const actionRemoveProduct = useEcomStore(
-    (state) => state.actionRemoveProduct
-  )
+  console.log('ListCart carts : ', {card} )
+  console.log('ListCart user : ', user)
+
+  const handleSaveCart = async () => {
+    await createUserCart(token, { card })
+      .then((res) => {
+        console.log(res);
+        toast.success("บันทึกใส่ตะกร้าเรียบร้อย", {
+          position: "top-center",
+        });
+        navigate("/checkout");
+      })
+      .catch((err) => {
+        console.log("err", err);
+        toast.warning(err.response.data.message);
+      });
+  };
+
   return (
     <div className="bg-gray-100 rounded-sm p-4">
       {/* Header */}
       <div className="flex gap-4 mb-4">
         <ListCheck size={36} />
-        <p className="text-2xl font-bold">รายการสินค้า {carts.length} รายการ</p>
+        <p className="text-2xl font-bold">รายการสินค้า {card.length} รายการ</p>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="col-span-2">
           {/* List */}
           {
-            carts.map((item, index) =>
+            card.map((item, index) =>
             (
               <div key={index} className="bg-white p-6 rounded-md shadow-md mb-2">
                 {/* Row 1 */}
@@ -54,10 +72,10 @@ const ListCart = () => {
                     </div>
                   </div>
                   <div>
-                  <div className="font-bold text-blue-500 flex text-center">
-                  ฿ {item.price * item.count}
+                    <div className="font-bold text-blue-500 flex text-center">
+                      ฿ {item.price * item.count}
+                    </div>
                   </div>
-                </div>
                 </div>
 
 
@@ -76,25 +94,39 @@ const ListCart = () => {
         <div className="bg-white p-4 rounded-md shadow-md space-y-4">
           <p className="text-2xl font-bold">ยอดรวม</p>
           <div className="flex justify-between">
-          
+
             <span>รวมสุทธิ</span>
             <span className="text-2xl font-bold">
               {'฿' + getTotalPrice()}
             </span>
           </div>
-<br /><br /><br />
+          <br /><br /><br />
           <div className="flex flex-col gap-2">
-            <Link>
-              <button
-                // disabled={cart.length < 1}
-                // onClick={handleSaveCart}
-                className="bg-red-500 w-full
+          
+            {user ? (
+              <Link>
+                <button
+                  disabled={card.length < 1}
+                  onClick={handleSaveCart}
+                  className="bg-red-500 w-full
                     rounded-md text-white py-2 shadow-md hover:bg-red-700
                     "
-              >
-                สั่งซื้อ
-              </button>
-            </Link>
+                >
+                  สั่งซื้อ
+                </button>
+              </Link>
+            ) : (
+              <Link to={"/login"}>
+                <button
+                  className="bg-blue-500 w-full
+                    rounded-md text-white py-2 shadow-md hover:bg-blue-700
+                    "
+                >
+                  Login
+                </button>
+              </Link>
+            )}
+
             <Link to={"/shop"}>
               <button
                 className="bg-gray-500 w-full 
