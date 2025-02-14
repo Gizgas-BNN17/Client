@@ -11,11 +11,21 @@ const usePersist = {
 
 const useEcomStore = create(
     persist(
-        (set) => ({
+        (set, get) => ({
             user: null,
             token: null,
             categories: [],
             products: [],
+            carts: [],
+            actionAddCart: (product) => {
+                const cart = get().carts
+                const updateCart = [
+                    ...cart,{...product,count : 1 }
+                ]
+                set({
+                    cart :  updateCart
+                })
+            },
             actionLogin: async (form) => {
                 console.log('action login')
                 const res = await axios.post('http://localhost:5000/api/login', form)
@@ -53,7 +63,7 @@ const useEcomStore = create(
                 }));
             },
             actionSearchFilters: async (arg) => {
-                console.log('arg : ',arg)
+                console.log('arg : ', arg)
                 try {
                     const res = await searchFilters(arg);
                     set({ products: res.data });

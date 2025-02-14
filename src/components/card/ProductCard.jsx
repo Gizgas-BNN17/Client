@@ -1,7 +1,9 @@
 import React from 'react'
 import { ShoppingBasket } from 'lucide-react';
+import useEcomStore from '../../store/ecomStore';
 
 const ProductCard = ({ item }) => {
+    const actionAddCart = useEcomStore((state)=>state.actionAddCart)
     return (
         <div className="border-b-0 rounded-md shadow-md p-2 w-50 ">
             <div className='p-1 '>
@@ -31,7 +33,9 @@ const ProductCard = ({ item }) => {
             <div className="flex justify-between items-center">
                 <span className="text-sm font-semibold">{item.price+' ฿'}
                 </span>
-                <button className="bg-blue-500 rounded-md
+                <button
+                onClick={()=>actionAddCart(item)}
+                 className="bg-blue-500 rounded-md
                 p-2 hover:bg-blue-700 shadow-md 
                 ">
                     <ShoppingBasket />
