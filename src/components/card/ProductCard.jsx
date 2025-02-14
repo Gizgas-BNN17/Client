@@ -29,7 +29,7 @@ const ProductCard = ({ item }) => {
                 </p>
             </div>
             <div className="flex justify-between items-center">
-                <span className="text-sm font-bold">135
+                <span className="text-sm font-semibold">{item.price+' ฿'}
                 </span>
                 <button className="bg-blue-500 rounded-md
                 p-2 hover:bg-blue-700 shadow-md 

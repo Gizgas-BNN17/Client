@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import useEcomStore from '../../store/ecomStore';
 // import "rc-slider/assets/index.css";
+import Slider from '@mui/material/Slider';
 
 const SearchCard = () => {
   const getProduct = useEcomStore((state) => state.getProduct);
@@ -16,7 +17,7 @@ const SearchCard = () => {
   const [text, setText] = useState("");
   const [categorySelected, setCategorySelected] = useState([]);
 
-  const [price, setPrice] = useState([1000, 30000]);
+  const [price, setPrice] = useState([10, 300]);
   const [ok, setOk] = useState(false);
 
   // console.log(categories)
@@ -60,18 +61,18 @@ const SearchCard = () => {
   };
   // console.log(categorySelected)
 
-  // Step 3 Search by Price
-  // useEffect(() => {
-  //   actionSearchFilters({ price });
-  // }, [ok]);
-  // const handlePrice = (value) => {
-  //   console.log(value);
-  //   setPrice(value);
+  //Step 3 Search by Price
+  useEffect(() => {
+    actionSearchFilters({ price });
+  }, [ok]);
+  const handlePrice = (value) => {
+    console.log(value);
+    setPrice(value);
 
-  //   setTimeout(() => {
-  //     setOk(!ok);
-  //   }, 300);
-  // };
+    setTimeout(() => {
+      setOk(!ok);
+    }, 300);
+  };
 
   return (
     <div>
@@ -98,23 +99,21 @@ const SearchCard = () => {
       </div>
       <hr />
       {/* Search by Price */}
-      {/* <div>
+      <div>
         <h1>ค้นหาราคา</h1>
         <div>
           <div className="flex justify-between">
-            <span>Min : {numberFormat(price[0])}</span>
-            <span>Max : {numberFormat(price[1])}</span>
+            <span>Min : {price[0]}</span>
+            <span>Max : {price[1]}</span>
           </div>
 
-          <Slider
-            onChange={handlePrice}
+          <Slider onChange={handlePrice}
             range
             min={0}
-            max={100000}
-            defaultValue={[1000, 30000]}
-          />
+            max={300}
+            defaultValue={[120, 160]} />
         </div>
-      </div> */}
+      </div>
     </div>
   );
 };
