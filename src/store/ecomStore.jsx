@@ -1,9 +1,9 @@
 import axios from "axios";
 import { create } from "zustand";
-import { persist, createJSONStorage } from 'zustand/middleware'
+import { persist ,createJSONStorage} from "zustand/middleware";
 import { listCategory } from "../api/category";
 import { listProduct, searchFilters } from "../api/product";
-
+import _ from "lodash";
 const usePersist = {
     name: 'ecom-store',
     storage: createJSONStorage(() => localStorage)
@@ -17,15 +17,14 @@ const useEcomStore = create(
             categories: [],
             products: [],
             carts: [],
-            actionAddCart: (product) => {
-                const cart = get().carts
-                const updateCart = [
-                    ...cart,{...product,count : 1 }
-                ]
-                set({
-                    cart :  updateCart
-                })
-            },
+            actionAddtoCart: (product) => {
+                const carts = get().carts;
+                const updateCart = [...carts, { ...product, count: 1 }];
+                // Step Uniqe
+                const uniqe = _.unionWith(updateCart, _.isEqual);
+                set({ carts: uniqe });
+                console.log("carts : ",carts)
+              },
             actionLogin: async (form) => {
                 console.log('action login')
                 const res = await axios.post('http://localhost:5000/api/login', form)
@@ -57,10 +56,6 @@ const useEcomStore = create(
                 } catch (err) {
                     console.log(err)
                 }
-            }, actionRemoveProduct: (productId) => {
-                set((state) => ({
-                    carts: state.carts.filter((item) => item.id !== productId),
-                }));
             },
             actionSearchFilters: async (arg) => {
                 console.log('arg : ', arg)
@@ -70,7 +65,25 @@ const useEcomStore = create(
                 } catch (err) {
                     console.log(err);
                 }
-            },
+            }, actionUpdateQuantity: (productId, newQuantity) => {
+                set((state) => ({
+                  carts: state.carts.map((item) =>
+                    item.id === productId
+                      ? { ...item, count: Math.max(1, newQuantity) }
+                      : item
+                  ),
+                }));
+              },
+              actionRemoveProduct: (productId) => {
+                set((state) => ({
+                  carts: state.carts.filter((item) => item.id !== productId),
+                }));
+              },
+              getTotalPrice: () => {
+                return get().carts.reduce((total, item) => {
+                  return total + item.price * item.count;
+                }, 0);
+              },
 
         }
 

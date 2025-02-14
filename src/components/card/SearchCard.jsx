@@ -97,10 +97,11 @@ const SearchCard = () => {
           ))}
         </div>
       </div>
+      <br />
       <hr />
       {/* Search by Price */}
       <div>
-        <h1>ค้นหาราคา</h1>
+        {/* <h1>ค้นหาราคา</h1>
         <div>
           <div className="flex justify-between">
             <span>Min : {price[0]}</span>
@@ -112,7 +113,7 @@ const SearchCard = () => {
             min={0}
             max={300}
             defaultValue={[120, 160]} />
-        </div>
+        </div> */}
       </div>
     </div>
   );
