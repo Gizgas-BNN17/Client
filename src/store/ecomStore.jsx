@@ -17,7 +17,15 @@ const useEcomStore = create(
             categories: [],
             products: [],
             carts: [],
-
+            logout: () => {
+                set({
+                  user: null,
+                  token: null,
+                  categories: [],
+                  products: [],
+                  carts: [],
+                });
+              },
             actionLogin: async (form) => {
                 console.log('action login')
                 const res = await axios.post('http://localhost:5000/api/login', form)
@@ -66,11 +74,11 @@ const useEcomStore = create(
                 const uniqe = _.unionWith(updateCart, _.isEqual);
                 set({ carts: uniqe });
                 console.log('in actionAddtoCart')
-                console.log('updateCart : ',updateCart)
-                console.log('uniqe : ',uniqe)
+                console.log('updateCart : ', updateCart)
+                console.log('uniqe : ', uniqe)
             },
-             actionUpdateQuantity: (productId, newQuantity) => {
-                console.log('in actionUpdateQuantity',productId,newQuantity)
+            actionUpdateQuantity: (productId, newQuantity) => {
+                console.log('in actionUpdateQuantity', productId, newQuantity)
                 set((state) => ({
                     carts: state.carts.map((item) =>
                         item.id === productId
@@ -86,10 +94,9 @@ const useEcomStore = create(
             },
             getTotalPrice: () => {
                 return get().carts.reduce((total, item) => {
-                    return total + item.price * item.count;
+                  return total + item.price * item.count;
                 }, 0);
-            },
-
+              },
         }
 
         ),

@@ -1,5 +1,5 @@
 import React from 'react'
-import {ListCheck } from "lucide-react";
+import { ListCheck } from "lucide-react";
 import useEcomStore from '../../store/ecomStore';
 import { Link } from "react-router-dom";
 import { createUserCart } from "../../api/user";
@@ -14,7 +14,7 @@ const ListCart = () => {
   const getTotalPrice = useEcomStore((state) => state.getTotalPrice);
   const navigate = useNavigate()
 
-  console.log('ListCart carts : ', {card} )
+  console.log('ListCart carts : ', { card })
   console.log('ListCart user : ', user)
 
   const handleSaveCart = async () => {
@@ -46,54 +46,54 @@ const ListCart = () => {
             card.map((item, index) =>
             (
               <motion.div
-              initial={{ opacity: 0, scale: 0 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{
                   duration: 0.7,
                   scale: { type: "spring", visualDuration: 0.4, bounce: 0.5 },
-              }}
-             
-  
-          >
-             <div key={index} className="bg-white p-6 rounded-md shadow-md mb-2">
-                {/* Row 1 */}
-                <div className="flex justify-between mb-2">    
-                  <div className="flex gap-2 items-center">
-                    {item.images && item.images.length > 0 ? (
-                      <img
-                        className="w-40 h-30 rounded-md"
-                        src={item.images[0].url}
-                      />
-                    ) : (
-                      <div
-                        className="w-16 h-16 bg-gray-200 
+                }}
+
+
+              >
+                <div key={index} className="bg-white p-6 rounded-md shadow-md mb-2">
+                  {/* Row 1 */}
+                  <div className="flex justify-between mb-2">
+                    <div className="flex gap-2 items-center">
+                      {item.images && item.images.length > 0 ? (
+                        <img
+                          className="w-40 h-30 rounded-md"
+                          src={item.images[0].url}
+                        />
+                      ) : (
+                        <div
+                          className="w-16 h-16 bg-gray-200 
                             rounded-md flex text-center items-center"
-                      >
-                        No Image
+                        >
+                          No Image
+                        </div>
+                      )}
+
+                      <div>
+                        <p className="font-bold">{item.title}</p>
+
+                        <p className="font-normal text-red-500">
+                          จำนวน  {item.count} ชิ้น</p>
+
                       </div>
-                    )}
-
+                    </div>
                     <div>
-                      <p className="font-bold">{item.title}</p>
-
-                      <p className="font-normal text-red-500">
-                        จำนวน  {item.count} ชิ้น</p>
-
+                      <div className="font-bold text-blue-500 flex text-center">
+                        ฿ {item.price * item.count}
+                      </div>
                     </div>
                   </div>
-                  <div>
-                    <div className="font-bold text-blue-500 flex text-center">
-                      ฿ {item.price * item.count}
-                    </div>
-                  </div>
+
+
+
+
                 </div>
 
-
-
-
-              </div>
-  
-          </motion.div>
+              </motion.div>
 
             )
             )
@@ -114,18 +114,31 @@ const ListCart = () => {
           </div>
           <br /><br /><br />
           <div className="flex flex-col gap-2">
-          
+
             {user ? (
               <Link>
-                <button
-                  disabled={card.length < 1}
-                  onClick={handleSaveCart}
-                  className="bg-red-500 w-full
+                {
+                  card.length > 0 ? (
+                    <button
+                      disabled={card.length < 1}
+                      onClick={handleSaveCart}
+                      className="bg-red-500 w-full
                     rounded-md text-white py-2 shadow-md hover:bg-red-700
                     "
-                >
-                  สั่งซื้อ
-                </button>
+                    >
+                      สั่งซื้อ
+                    </button>
+                  ) : (
+                    <button
+                      disabled={card.length < 1}
+                      onClick={handleSaveCart}
+                      className={`w-full rounded-md text-white py-2 shadow-md ${card.length < 1 ? 'bg-gray-500 cursor-not-allowed' : 'bg-red-500 hover:bg-red-700'}`}
+                    >
+                      สั่งซื้อ
+                    </button>
+                  )
+
+                }
               </Link>
             ) : (
               <Link to={"/login"}>

@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 const SummaryCard = () => {
     const token = useEcomStore((state) => state.token);
+    const clearCart = useEcomStore((state) => state.clearCart);
     const [products, setProducts] = useState([]);
     const [cartTotal, setCartTotal] = useState(0);
 
@@ -22,7 +23,7 @@ const SummaryCard = () => {
             .then((res) => {
                 console.log(res)
                 setProducts(res.data.product);
-                setCartTotal(res.data.cartTotal);
+                setCartTotal(res.data.cardTotal);
             })
             .catch((err) => {
                 console.log(err);
@@ -50,7 +51,8 @@ const SummaryCard = () => {
     }
     toast.success("สั่งซื้อเรียบร้อย !!! ");
    // navigate("/shop");
-   navigate("/payment");
+   clearCart()
+   navigate("/shop");
   };
 
     console.log('Summary / products : ', products)
@@ -95,13 +97,13 @@ const SummaryCard = () => {
                                     <div>
                                         <p className="font-bold">{item.product.title}</p>
                                         <p className="text-sm">
-                                            จำนวน : {item.count} x {item.product.price}
+                                            จำนวน : ฿ {item.count} x {item.product.price}
                                         </p>
                                     </div>
 
                                     <div>
                                         <p className="text-red-500 font-bold">
-                                            {item.count * item.product.price}
+                                        ฿ {item.count * item.product.price}
                                         </p>
                                     </div>
                                 </div>
@@ -122,7 +124,7 @@ const SummaryCard = () => {
                         <div>
                             <div className="flex justify-between">
                                 <p className="font-bold">ยอดรวมสุทธิ:</p>
-                                <p className="text-red-500 font-bold text-lg">cart</p>
+                                <p className="text-neutral-900 font-bold text-lg">฿ {cartTotal}</p>
                             </div>
                         </div>
 
