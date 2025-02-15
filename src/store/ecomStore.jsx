@@ -5,7 +5,7 @@ import { listCategory } from "../api/category";
 import { listProduct, searchFilters } from "../api/product";
 import _ from "lodash";
 const usePersist = {
-    name: 'ecom-store',
+    name: 'Dessert-store',
     storage: createJSONStorage(() => localStorage)
 }
 

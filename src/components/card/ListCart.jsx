@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { createUserCart } from "../../api/user";
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { motion } from "motion/react"
 
 const ListCart = () => {
   const card = useEcomStore((state) => state.carts)
@@ -44,10 +45,19 @@ const ListCart = () => {
           {
             card.map((item, index) =>
             (
-              <div key={index} className="bg-white p-6 rounded-md shadow-md mb-2">
+              <motion.div
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{
+                  duration: 0.7,
+                  scale: { type: "spring", visualDuration: 0.4, bounce: 0.5 },
+              }}
+             
+  
+          >
+             <div key={index} className="bg-white p-6 rounded-md shadow-md mb-2">
                 {/* Row 1 */}
-                <div className="flex justify-between mb-2">
-                  {/* Left */}
+                <div className="flex justify-between mb-2">    
                   <div className="flex gap-2 items-center">
                     {item.images && item.images.length > 0 ? (
                       <img
@@ -82,6 +92,8 @@ const ListCart = () => {
 
 
               </div>
+  
+          </motion.div>
 
             )
             )

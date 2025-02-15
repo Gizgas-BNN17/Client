@@ -33,7 +33,17 @@ const CartCard = () => {
         {
           carts.map((item, index) =>
           (
-            <div key={index} className="bg-white p-2 rounded-md shadow-md mb-3 border-b-0">
+            <motion.div
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{
+                duration: 1,
+                scale: { type: "spring", visualDuration: 0.4, bounce: 0.5 },
+            }}
+           
+
+        >
+           <div key={index} className="bg-white p-2 rounded-md shadow-md mb-3 border-b-0">
               {/* Row 1 */}
               <div className="flex justify-between mb-2">
                 {/* Left */}
@@ -95,6 +105,8 @@ const CartCard = () => {
                 <div className="font-bold text-blue-500">฿ {item.price * item.count}</div>
               </div>
             </div>
+
+        </motion.div>
           )
           )
         }

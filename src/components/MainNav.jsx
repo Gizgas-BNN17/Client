@@ -2,6 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import useEcomStore from "../store/ecomStore";
 import { ShoppingCart } from "lucide-react";
+import { motion } from "motion/react"
+import { UserRoundPlus ,LogIn } from 'lucide-react';
 
 const MainNav = () => {
   const carts = useEcomStore((state) => state.carts);
@@ -36,6 +38,8 @@ const MainNav = () => {
               }
               to={"/register"}
             >
+                  <UserRoundPlus />
+
               Register
             </Link>
 
@@ -44,7 +48,8 @@ const MainNav = () => {
               }
               to={"/login"}
             >
-              Login
+                  <LogIn />
+                  Login
             </Link>
           </div>
 
