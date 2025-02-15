@@ -16,21 +16,44 @@ const MainNav = () => {
   };
 
   return (
-    <nav className="bg-pink-200 shadow-md">
+    <nav className="bg-pink-400 shadow-md">
       <div className="mx-auto px-4">
         <div className="flex justify-between h-16">
           <div className="flex items-center gap-5 ">
             <Link to={"/"} className="text-2xl font-bold">
               DESSERT DAIFUKUS
             </Link>
+            
+            <NavLink to={"/"} 
+            className={
+              ({ isActive }) =>
+                isActive
+                  ? "bg-pink-300 px-3 py-2 rounded-md text-sm font-medium"
+                  : "hover:bg-slate-200 px-3 py-2 rounded-md text-sm font-medium "
+            }
+          
+            >
+              Home
+            </NavLink>
+            <NavLink to={"/shop"} 
+            className={
+              ({ isActive }) =>
+                isActive
+                  ? "bg-pink-300 px-3 py-2 rounded-md text-sm font-medium"
+                  : "hover:bg-slate-200 px-3 py-2 rounded-md text-sm font-medium "
+            }
+          
+            >
+              Shop
+            </NavLink>
             <NavLink
               to="/card"
               className={
                 
                 ({ isActive }) =>
                 isActive
-                  ? "bg-pink-300 px-2 py-2 rounded-full text-sm font-medium text-gray-800 relative"
-                  : "hover:bg-pink-300 px-2 py-2 rounded-full text-sm font-medium text-gray-800 relative"
+              ? "bg-pink-300 px-3 py-2 rounded-full text-sm font-medium relative"
+                  : "hover:bg-slate-200 px-3 py-2 rounded-full text-sm font-medium relative"
               }
             >
               <ShoppingCart size={28} className="text-r" />
@@ -41,29 +64,6 @@ const MainNav = () => {
               )}
             </NavLink>
 
-            <NavLink to={"/"} 
-            className={
-              ({ isActive }) =>
-                isActive
-                  ? "bg-pink-300 px-2 py-2 text-sm  font-bold  rounded-full"
-                  : "hover:bg-pink-300 px-2 py-2 text-sm  font-bold  rounded-full"
-            }
-          
-            >
-              Home
-            </NavLink>
-            <NavLink to={"/shop"} 
-            className={
-              ({ isActive }) =>
-                isActive
-                  ? "bg-pink-300 px-2 py-2 text-sm font-bold  rounded-full"
-                  : "hover:bg-pink-300 px-2 py-2 text-sm font-bold  rounded-full"
-            }
-          
-            >
-              Shop
-            </NavLink>
-          
 
           </div>
 
@@ -80,7 +80,7 @@ const MainNav = () => {
               px-2 py-3 rounded-md"
             >
               <img
-                className="w-8 h-8"
+                className="w-10 h-10"
                 src="https://cdn.iconscout.com/icon/free/png-512/free-avatar-icon-download-in-svg-png-gif-file-formats--user-teacher-avatars-flat-icons-pack-people-456321.png?f=webp&w=512"
               />
 

@@ -6,6 +6,7 @@ import Uploadfile from './Uploadfile';
 import { toast } from 'react-toastify';
 import { Link } from "react-router-dom";
 import { Pencil, Trash } from "lucide-react";
+import { dateFormat } from '../../utils/dateformat';
 
 const initialState = {
 
@@ -171,7 +172,7 @@ const Formproduct = () => {
                                 <td className="border p-3">{item.price}</td>
                                 <td className="border p-3">{item.quantity}</td>
                                 <td className="border p-3">{item.sold}</td>
-                                <td className="border p-3">{item.updatedAt}</td>
+                                <td className="border p-3">{dateFormat(item.updatedAt)}</td>
                                 <td className="border p-3 flex justify-center items-center gap-2">
                                     <Link
                                         to={'/admin/product/' + item.id}

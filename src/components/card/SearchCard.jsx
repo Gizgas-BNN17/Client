@@ -1,32 +1,24 @@
 // rafce
 import React, { useEffect, useState } from "react";
 import useEcomStore from '../../store/ecomStore';
-// import "rc-slider/assets/index.css";
 import Slider from '@mui/material/Slider';
 
 const SearchCard = () => {
   const getProduct = useEcomStore((state) => state.getProduct);
   const products = useEcomStore((state) => state.products);
-  const actionSearchFilters = useEcomStore(
-    (state) => state.actionSearchFilters
-  );
-
+  const actionSearchFilters = useEcomStore((state) => state.actionSearchFilters);
   const getCategory = useEcomStore((state) => state.getCategory);
   const categories = useEcomStore((state) => state.categories);
 
   const [text, setText] = useState("");
   const [categorySelected, setCategorySelected] = useState([]);
-
   const [price, setPrice] = useState([10, 300]);
   const [ok, setOk] = useState(false);
 
-  // console.log(categories)
   useEffect(() => {
     getCategory();
   }, []);
 
-  // Step 1 Search Text
-  // console.log(text)
   useEffect(() => {
     const delay = setTimeout(() => {
       if (text) {
@@ -35,17 +27,13 @@ const SearchCard = () => {
         getProduct();
       }
     }, 300);
-
     return () => clearTimeout(delay);
   }, [text]);
 
-  // Step 2 Search by Category
   const handleCheck = (e) => {
-    // console.log(e.target.value)
-    const inCheck = e.target.value; // ค่าที่เรา ติ๊ก
-    const inState = [...categorySelected]; // [1,2,3] arr ว่าง
-    const findCheck = inState.indexOf(inCheck); // ถ้าไม่เจอ จะ return -1
-
+    const inCheck = e.target.value;
+    const inState = [...categorySelected];
+    const findCheck = inState.indexOf(inCheck);
     if (findCheck === -1) {
       inState.push(inCheck);
     } else {
@@ -59,61 +47,59 @@ const SearchCard = () => {
       getProduct();
     }
   };
-  // console.log(categorySelected)
 
-  //Step 3 Search by Price
   useEffect(() => {
     actionSearchFilters({ price });
   }, [ok]);
-  const handlePrice = (value) => {
-    console.log(value);
-    setPrice(value);
 
+  const handlePrice = (value) => {
+    setPrice(value);
     setTimeout(() => {
       setOk(!ok);
     }, 300);
   };
-
   return (
-    <div>
-      <h1 className="text-xl font-bold mb-4">ค้นหาสินค้า</h1>
+    <div className="bg-white shadow-md rounded-lg p-4 max-w-sm mx-auto">
+      <h1 className="text-xl font-semibold mb-4 text-gray-800">ค้นหาสินค้า</h1>
+  
       {/* Search by Text */}
       <input
         onChange={(e) => setText(e.target.value)}
         type="text"
-        placeholder="ค้นหาสินค้า...."
-        className="border rounded-md w-full mb-4 px-2"
+        placeholder="ค้นหาสินค้า..."
+        className="border border-gray-300 rounded-md w-full p-2 mb-4 focus:outline-none focus:ring-1 focus:ring-blue-400"
       />
-      <hr />
+  
       {/* Search by Category */}
-      <div>
-        <h1>หมวดหมู่สินค้า</h1>
-        <div>
+      <div className="mb-4">
+        <h2 className="text-lg font-medium text-gray-700 mb-2">หมวดหมู่สินค้า</h2>
+        <div className="space-y-2">
           {categories.map((item, index) => (
-            <div key={index} className="flex gap-2">
-              <input onChange={handleCheck} value={item.id} type="checkbox" />
-              <label>{item.name}</label>
+            <div key={index} className="flex items-center gap-2">
+              <input
+                onChange={handleCheck}
+                value={item.id}
+                type="checkbox"
+                className="h-4 w-4 text-blue-600 border-gray-300 rounded"
+              />
+              <label className="text-gray-700">{item.name}</label>
             </div>
           ))}
         </div>
       </div>
-      <br />
-      <hr />
+  
       {/* Search by Price */}
       <div>
-        {/* <h1>ค้นหาราคา</h1>
-        <div>
-          <div className="flex justify-between">
-            <span>Min : {price[0]}</span>
-            <span>Max : {price[1]}</span>
-          </div>
-
-          <Slider onChange={handlePrice}
-            range
-            min={0}
-            max={300}
-            defaultValue={[120, 160]} />
-        </div> */}
+        <h2 className="text-lg font-medium text-gray-700 mb-2">ค้นหาตามราคา</h2>
+        <Slider
+          value={price}
+          onChange={(e, newValue) => handlePrice(newValue)}
+          valueLabelDisplay="auto"
+          min={10}
+          max={300}
+          className="text-blue-600"
+        />
+        <div className="text-sm text-gray-600 mt-1">ช่วงราคา: {price[0]} - {price[1]} บาท</div>
       </div>
     </div>
   );

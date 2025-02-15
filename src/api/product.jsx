@@ -73,3 +73,12 @@ export const searchFilters = async (arg) => {
     return axios.post("http://localhost:5000/api/search/filters", arg);
   };
   
+
+  export const listProductBy = async (sort, order, limit) => {
+    // code body
+    return axios.post("http://localhost:5000/api/productby", {
+      sort,
+      order,
+      limit,
+    });
+  };

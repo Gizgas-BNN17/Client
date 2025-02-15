@@ -39,10 +39,11 @@ const router = createBrowserRouter([
         path: '/admin',
         element: <ProtectAdmin element={<LayoutAdmin />} />,
         children: [
-            { index: true, element: <Home /> },
+            { index: 'category', element: <Category /> },
             { path: 'category', element: <Category /> },
             { path: 'product', element: <Product /> },
             { path: 'product/:id', element: <EditProduct /> },
+            { path: 'login', element: <Login /> },
         ]
     },
     {
