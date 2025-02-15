@@ -4,6 +4,7 @@ import useEcomStore from "../store/ecomStore";
 import { ShoppingCart } from "lucide-react";
 import { motion } from "motion/react"
 import { UserRoundPlus, LogIn,ChevronDown } from 'lucide-react';
+import { Cookie ,Slack } from 'lucide-react';
 
 const MainNav = () => {
   const carts = useEcomStore((state) => state.carts);
@@ -19,10 +20,12 @@ const MainNav = () => {
     <nav className="bg-pink-400 shadow-md">
       <div className="mx-auto px-4">
         <div className="flex justify-between h-16">
-          <div className="flex items-center gap-5 ">
+          <div className="flex items-center gap-1 ">
+          <Slack/>
             <Link to={"/"} className="text-2xl font-bold">
               DESSERT DAIFUKUS
             </Link>
+            <Cookie size={20}/>
             
             <NavLink to={"/"} 
             className={
